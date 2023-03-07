@@ -43,7 +43,8 @@ const ModalScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.formControl}>
+        <Text style={styles.label}>Name of your color Palette</Text>
         <TextInput
           style={styles.input}
           value={paletteName}
@@ -56,12 +57,12 @@ const ModalScreen = () => {
         data={COLORS}
         renderItem={({item}) => <ColorPicker {...item} />}
         keyExtractor={item => item.colorName}
-        ListFooterComponent={
-          <TouchableOpacity style={styles.btn} onPress={handleSubmitPalette}>
-            <Text style={styles.btnText}>Create Palette</Text>
-          </TouchableOpacity>
-        }
       />
+      <View style={styles.btnContainer}>
+        <TouchableOpacity style={styles.btn} onPress={handleSubmitPalette}>
+          <Text style={styles.btnText}>Create Palette</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -71,23 +72,36 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 25,
     backgroundColor: 'white',
+    position: 'relative',
   },
   list: {
     padding: 14,
+    marginBottom: 10,
+  },
+  formControl: {
+    marginBottom: 15,
+    marginHorizontal: 10,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 6,
+    fontWeight: 'bold',
   },
   input: {
     height: 46,
     padding: 10,
     backgroundColor: 'white',
-    marginHorizontal: 14,
     borderColor: '#bbb',
     borderWidth: 1,
-    marginBottom: 15,
     borderRadius: 6,
     fontSize: 16,
   },
+  btnContainer: {
+    backgroundColor: 'rgba(25, 155, 255, 0.1)',
+    alignItems: 'center',
+  },
   btn: {
-    width: '100%',
+    width: '90%',
     alignItems: 'center',
     padding: 15,
     backgroundColor: 'teal',

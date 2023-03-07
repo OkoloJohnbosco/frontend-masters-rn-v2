@@ -25,7 +25,6 @@ const App = () => {
             options={({route}) => ({
               // @ts-expect-error
               title: route.params?.paletteName,
-              // eslint-disable-next-line react/no-unstable-nested-components
               // headerLeft: () => (
               //   <TouchableOpacity onPress={() => Alert.alert('John')}>
               //     <Switch
@@ -37,7 +36,6 @@ const App = () => {
               //     />
               //   </TouchableOpacity>
               // ),
-              // eslint-disable-next-line react/no-unstable-nested-components
               // headerRight: () => (
               //   <TouchableOpacity onPress={() => Alert.alert('John')}>
               //     <Switch
