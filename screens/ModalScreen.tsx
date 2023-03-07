@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import ColorPicker from '../components/color-picker';
 import {ColorBoxProps} from '../types';
+import {useNavigation} from '@react-navigation/native';
 
 const COLORS: ColorBoxProps[] = [
   {colorName: 'AliceBlue', hexCode: '#F0F8FF'},
@@ -38,16 +39,25 @@ const COLORS: ColorBoxProps[] = [
 const ModalScreen = () => {
   const [paletteName, setPaletteName] = React.useState<string>('');
   const [colors, setColors] = React.useState<ColorBoxProps[]>([]);
+  const navigation = useNavigation();
 
   const handleSubmitPalette = () => {
     if (!paletteName) {
       Alert.alert('Please input the name of your palette');
       return;
     }
-    if (colors.length === 0) {
+    if (colors.length <= 2) {
       Alert.alert('Please add at least 3 colors to your palatte');
       return;
     }
+    const newPalette = [
+      {
+        paletteName,
+        colors,
+      },
+    ];
+    // @ts-expect-error
+    navigation.navigate('Home', newPalette);
   };
   return (
     <View style={styles.container}>
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     borderColor: '#bbb',
     borderWidth: 1,
     borderRadius: 6,
-    fontSize: 16,
+    fontSize: 18,
   },
   btnContainer: {
     // backgroundColor: 'rgba(25, 155, 255, 0.1)',

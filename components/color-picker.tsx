@@ -9,8 +9,18 @@ const ColorPicker = (
   },
 ) => {
   const [isEnabled, setIsEnabled] = React.useState<boolean>(false);
+  const {colorName, colors, hexCode, setColors} = data;
 
-  const toggleSwitch = () => setIsEnabled(prev => !prev);
+  const toggleSwitch = (value: boolean) => {
+    setIsEnabled(value);
+    if (value) {
+      setColors(prev => [...prev, {colorName, hexCode}]);
+    } else {
+      const newColors = colors.filter(color => color.colorName === colorName);
+      setColors(newColors);
+    }
+  };
+
   return (
     <View style={styles.picker}>
       <Text style={styles.pickerText}>{data.colorName}</Text>
