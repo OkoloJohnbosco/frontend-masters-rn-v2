@@ -2,7 +2,12 @@ import {View, Text, StyleSheet, Switch} from 'react-native';
 import React from 'react';
 import {ColorBoxProps} from '../types';
 
-const ColorPicker = (data: ColorBoxProps) => {
+const ColorPicker = (
+  data: ColorBoxProps & {
+    colors: ColorBoxProps[];
+    setColors: React.Dispatch<React.SetStateAction<ColorBoxProps[]>>;
+  },
+) => {
   const [isEnabled, setIsEnabled] = React.useState<boolean>(false);
 
   const toggleSwitch = () => setIsEnabled(prev => !prev);

@@ -37,9 +37,17 @@ const COLORS: ColorBoxProps[] = [
 
 const ModalScreen = () => {
   const [paletteName, setPaletteName] = React.useState<string>('');
+  const [colors, setColors] = React.useState<ColorBoxProps[]>([]);
 
   const handleSubmitPalette = () => {
-    Alert.alert(paletteName);
+    if (!paletteName) {
+      Alert.alert('Please input the name of your palette');
+      return;
+    }
+    if (colors.length === 0) {
+      Alert.alert('Please add at least 3 colors to your palatte');
+      return;
+    }
   };
   return (
     <View style={styles.container}>
@@ -55,7 +63,9 @@ const ModalScreen = () => {
       <FlatList
         style={styles.list}
         data={COLORS}
-        renderItem={({item}) => <ColorPicker {...item} />}
+        renderItem={({item}) => (
+          <ColorPicker colors={colors} setColors={setColors} {...item} />
+        )}
         keyExtractor={item => item.colorName}
       />
       <View style={styles.btnContainer}>
@@ -76,7 +86,7 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 14,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   formControl: {
     marginBottom: 15,
@@ -97,8 +107,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   btnContainer: {
-    backgroundColor: 'rgba(25, 155, 255, 0.1)',
+    // backgroundColor: 'rgba(25, 155, 255, 0.1)',
     alignItems: 'center',
+    position: 'relative',
+    bottom: -20,
+    height: 'auto',
   },
   btn: {
     width: '90%',
