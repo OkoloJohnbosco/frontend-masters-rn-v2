@@ -8,15 +8,17 @@ const ColorPicker = (
     setColors: React.Dispatch<React.SetStateAction<ColorBoxProps[]>>;
   },
 ) => {
-  const [isEnabled, setIsEnabled] = React.useState<boolean>(false);
   const {colorName, colors, hexCode, setColors} = data;
+  const isAvailable = React.useMemo(
+    () => colors.findIndex(color => color.colorName === colorName) >= 0,
+    [colorName, colors],
+  );
 
-  const toggleSwitch = (value: boolean) => {
-    setIsEnabled(value);
-    if (value) {
+  const toggleSwitch = () => {
+    if (!isAvailable) {
       setColors(prev => [...prev, {colorName, hexCode}]);
     } else {
-      const newColors = colors.filter(color => color.colorName === colorName);
+      const newColors = colors.filter(color => color.colorName !== colorName);
       setColors(newColors);
     }
   };
@@ -26,10 +28,10 @@ const ColorPicker = (
       <Text style={styles.pickerText}>{data.colorName}</Text>
       <Switch
         trackColor={{false: '#aaa', true: 'green'}}
-        thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
+        thumbColor={isAvailable ? '#f4f3f4' : '#f4f3f4'}
         ios_backgroundColor="#aaa"
         onValueChange={toggleSwitch}
-        value={isEnabled}
+        value={colors.findIndex(color => color.colorName === colorName) >= 0}
       />
     </View>
   );

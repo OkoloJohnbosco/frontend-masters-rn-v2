@@ -1,23 +1,14 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  FlatList,
-  Text,
-  Alert,
-  useColorScheme,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, FlatList, Text, Alert} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {PaletteProps} from '../types';
 import PalettePreview from '../components/palette-preview';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Home = () => {
+const Home = ({route}: {route: any}) => {
   const navigation = useNavigation();
   const [palettes, setPalettes] = React.useState<PaletteProps[]>([]);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
-  const colorScheme = useColorScheme();
-  console.log(colorScheme);
 
   const handleFetchPalettes = React.useCallback(async () => {
     try {
@@ -27,7 +18,6 @@ const Home = () => {
       if (response.ok) {
         const palettesRes = await response.json();
         setPalettes(palettesRes);
-        // console.log(palettes);
       }
     } catch (err) {
       Alert.alert('Something went wrong');
@@ -37,6 +27,17 @@ const Home = () => {
   React.useEffect(() => {
     handleFetchPalettes();
   }, [handleFetchPalettes]);
+
+  React.useEffect(() => {
+    if (route?.params) {
+      const isAvailable = palettes.find(
+        palette => palette.paletteName === route?.params?.paletteName,
+      );
+      !isAvailable &&
+        setPalettes(prevPalettes => [route.params, ...prevPalettes]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route?.params]);
 
   const handleRefresh = React.useCallback(async () => {
     setIsRefreshing(true);

@@ -14,6 +14,7 @@ const PalettePreview = ({
       <Text style={styles.text}>{palette.paletteName}</Text>
       <FlatList
         horizontal={true}
+        showsHorizontalScrollIndicator={true}
         style={styles.list}
         data={palette.colors.slice(0, 5)}
         renderItem={({item}) => (

@@ -50,13 +50,11 @@ const ModalScreen = () => {
       Alert.alert('Please add at least 3 colors to your palatte');
       return;
     }
-    const newPalette = [
-      {
-        paletteName,
-        colors,
-      },
-    ];
-    // @ts-expect-error
+    const newPalette = {
+      paletteName,
+      colors,
+    };
+    // @ts-expect-errorCc
     navigation.navigate('Home', newPalette);
   };
   return (
